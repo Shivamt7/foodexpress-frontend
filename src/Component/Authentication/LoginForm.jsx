@@ -1,26 +1,53 @@
-import { Box, Modal } from '@mui/material'
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from "react";
+import RegisterForm from "./RegisterForm";
+import { Button, TextField, Typography } from "@mui/material";
+import { Field, Form, Formik } from "formik";
+import { useNavigate } from "react-router-dom";
+
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 const LoginForm = () => {
-
-    const location = useLocation();
-    const navigate = useNavigate();
+  const navigate=useNavigate()
+  const handleSubmit = () => {};
 
   return (
-    <>
-      <Modal open={
-        location.pathname === "/account/register"
-        || location.pathname === "/accound/login"
-      }>
+    <div>
+      <Typography variant="h5" className="text-center">
+        Login
+      </Typography>
 
-        <Box>
+      <Formik onSubmit={handleSubmit} initialValues={initialValues}>
+        <Form>
+          <Field
+            as={TextField}
+            name="email"
+            label="Email"
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
+          <Field
+            as={TextField}
+            name="password"
+            label="Password"
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
+          <Button sx={{mt:2, padding:"1rem"}} fullWidth type="submit" variant="contained" >Login</Button>
+        </Form>
+      </Formik>
+      <Typography variant="body2" align="center" sx={{mt:3}}>
+        Don't have an account?
+        <Button size="small" onClick={()=>navigate("/account/register")}>
+          Register
+        </Button>
+      </Typography>
+    </div>
+  );
+};
 
-        </Box>
-
-      </Modal>
-    </>
-  )
-}
-
-export default LoginForm
+export default LoginForm;
