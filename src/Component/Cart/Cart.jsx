@@ -1,13 +1,11 @@
-import { Box, Button, Card, Divider, Modal } from "@mui/material";
+import { Box, Button, Card, Divider, Modal, TextField } from "@mui/material";
 import React from "react";
 import CartItem from "./CartItem";
 import AddressCard from "./AddressCard";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import { Formik } from "formik";
-import * as Yup from "yup";
-
-
-
+import { ErrorMessage, Field, Form, Formik } from "formik";
+// import * as Yup from "yup";
+import Grid from "@mui/material/Grid2";
 
 const items = [1, 1];
 
@@ -23,26 +21,28 @@ export const style = {
   p: 4,
 };
 
-const initialValues={
-  streetAddress:"",
-  state:"",
-  pincode:"",
-  city:"",
-}
+const initialValues = {
+  streetAddress: "",
+  state: "",
+  pincode: "",
+  city: "",
+};
 
-const validationSchema=Yup.object().shape({
-  streetAddress:Yup.string().required("Street address is required"),
-  state:Yup.string().required("State is required"),
-  pincode:Yup.number().required("Pincode is required"),
-  city:Yup.string().required("City is required")
-});
+// const validationSchema = Yup.object().shape({
+//   streetAddress: Yup.string().required("Street address is required"),
+//   state: Yup.string().required("State is required"),
+//   pincode: Yup.number().required("Pincode is required"),
+//   city: Yup.string().required("City is required"),
+// });
 
 const Cart = () => {
   const createOrderUsingSelectedAddress = () => {};
   const handleOpenAddressModal = () => setOpen(true);
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
-  const handleSubmit=()=>{}
+  const handleSubmit = (values) => {
+    console.log("form value", values);
+  };
 
   return (
     <>
@@ -116,15 +116,71 @@ const Cart = () => {
           </div>
         </section>
       </main>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
-          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-
+          <Formik
+            initialValues={initialValues}
+            // validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Field
+                    as={TextField}
+                    name="streetAddress"
+                    label="Street Address"
+                    fullWidth
+                    variant="outlined"
+                    // error={!ErrorMessage("streetAddress")}
+                    // helperText={(msg)=><span className="text-red-600">{msg}</span>}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    as={TextField}
+                    name="state"
+                    label="State"
+                    fullWidth
+                    variant="outlined"
+                    // error={!ErrorMessage("streetAddress")}
+                    // helperText={(msg)=><span className="text-red-600">{msg}</span>}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    as={TextField}
+                    name="city"
+                    label="City"
+                    fullWidth
+                    variant="outlined"
+                    // error={!ErrorMessage("streetAddress")}
+                    // helperText={(msg)=><span className="text-red-600">{msg}</span>}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    as={TextField}
+                    name="pincode"
+                    label="Pincode"
+                    fullWidth
+                    variant="outlined"
+                    // error={!ErrorMessage("streetAddress")}
+                    // helperText={(msg)=><span className="text-red-600">{msg}</span>}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    type="submit"
+                    color="primary"
+                  >
+                    Deliver Here
+                  </Button>
+                </Grid>
+              </Grid>
+            </Form>
           </Formik>
         </Box>
       </Modal>
